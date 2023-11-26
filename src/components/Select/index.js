@@ -159,7 +159,6 @@ const customStyles = {
 };
 
 export const SelectRaw = ({ onChange, ...rest }) => {
-  console.log(onChange, rest )
   return (
     <Select
       className="react-select-wrapper"
