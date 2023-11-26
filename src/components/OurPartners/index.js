@@ -258,7 +258,6 @@ const OurPartners = ({
     borderBottom: borderBottom,
     width: width,
   };
-  console.log(rest);
   //Renderized...
   return (
     <Fragment github="/components/partner" style={FragmentStyle}>

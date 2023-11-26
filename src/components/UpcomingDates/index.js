@@ -5,6 +5,7 @@ import { H2, H3, H4, H5, Paragraph } from "../Heading";
 import { Colors, Button, Img, Anchor } from "../Styling";
 import dayjs from "dayjs";
 import Select from "../Select";
+import { SelectRaw } from "../Select";
 import "dayjs/locale/de";
 import Icon from "../Icon";
 import styled from "styled-components";
@@ -215,6 +216,7 @@ const UpcomingDates = ({
   }, [session]);
   const buttonText = session?.location?.button.apply_button_text;
 
+  console.log(data?.cohorts?.catalog, session)
   return (
     <GridContainer
       id={id}
@@ -243,53 +245,45 @@ const UpcomingDates = ({
             {content?.title}
           </H3>
           {!location && (
-            <Select
-              // margin="0 10px 0 0"
-              top="40px"
-              padding="4px 10px"
-              left="20px"
-              width="300px"
-              maxWidth="100%"
-              shadow="0px 0px 6px 2px rgba(0, 0, 0, 0.2)"
-              options={data.cohorts?.catalog}
-              openLabel={
-                lang == "us"
-                  ? academy
-                    ? "Campus: " + academy.label
-                    : "Select one academy"
-                  : academy
-                  ? "Campus: " + academy.label
-                  : "Escoge una academia"
-              }
-              closeLabel={
-                lang == "us"
-                  ? academy
-                    ? "Campus: " + academy.label
-                    : "Select one academy"
-                  : academy
-                  ? "Campus: " + academy.label
-                  : "Escoge una academia"
-              }
-              onSelect={(opt) => {
-                setAcademy(opt);
-                setData({
-                  ...data,
-                  [filterType.value]: {
-                    ...data[filterType.value],
-                    filtered:
-                      opt.label !== "All Locations"
-                        ? data[filterType.value].all.filter(
+            <Div
+              width_tablet="220px"
+              width_md="320px"
+              width_xs="320px"
+              width_xxs="280px"
+            >
+              <SelectRaw
+                options={data?.cohorts?.catalog}
+                placeholder={
+                  lang == "us"
+                    ? academy
+                      ? "Campus: " + academy.label
+                      : "Select one academy"
+                    : academy
+                      ? "Campus: " + academy.label
+                      : "Escoge una academia"
+                }
+                onChange={(opt) => {
+                  setAcademy(opt);
+                  setData({
+                    ...data,
+                    [filterType.value]: {
+                      ...data[filterType.value],
+                      filtered:
+                        opt.label !== "All Locations"
+                          ? data[filterType.value].all.filter(
                             (elm) => elm.academy.slug === opt.value
                           )
-                        : data[filterType.value].all,
-                  },
-                });
-              }}
-            />
+                          : data[filterType.value].all,
+                    },
+                  });
+                }}
+              />
+
+            </Div>
           )}
         </Div>
         {Array.isArray(data.cohorts.filtered) &&
-        data.cohorts.filtered.length > 0 ? (
+          data.cohorts.filtered.length > 0 ? (
           data.cohorts.filtered.map((m, i) => {
             return (
               i < 4 && (
@@ -322,25 +316,23 @@ const UpcomingDates = ({
                     </H4>
                     <Paragraph textAlign="left" fontWeight="700">
                       {`
-                                ${
-                                  lang === "us"
-                                    ? dayjs(m.kickoff_date)
-                                        .locale("en")
-                                        .format("MM/DD")
-                                    : dayjs(m.kickoff_date)
-                                        .locale("es")
-                                        .format("DD/MM")
-                                } 
+                                ${lang === "us"
+                          ? dayjs(m.kickoff_date)
+                            .locale("en")
+                            .format("MM/DD")
+                          : dayjs(m.kickoff_date)
+                            .locale("es")
+                            .format("DD/MM")
+                        } 
                                 ${lang === "us" ? " to " : " al "} 
-                                ${
-                                  lang === "us"
-                                    ? dayjs(m.ending_date)
-                                        .locale("en")
-                                        .format("MM/DD")
-                                    : dayjs(m.ending_date)
-                                        .locale("es")
-                                        .format("DD/MM")
-                                }
+                                ${lang === "us"
+                          ? dayjs(m.ending_date)
+                            .locale("en")
+                            .format("MM/DD")
+                          : dayjs(m.ending_date)
+                            .locale("es")
+                            .format("DD/MM")
+                        }
                                 `}
                     </Paragraph>
                   </Div>
@@ -399,8 +391,8 @@ const UpcomingDates = ({
                       {m.syllabus_version.name === modality["full_time"]
                         ? content.info.duration_full_time
                         : m.syllabus_version.name === modality["part_time"]
-                        ? content.info.duration_part_time
-                        : content.info.duration_weeks}
+                          ? content.info.duration_part_time
+                          : content.info.duration_weeks}
                     </Paragraph>
                   </Div>
 
@@ -439,8 +431,8 @@ const UpcomingDates = ({
                         {m.syllabus_version.name === modality["full_time"]
                           ? content.info.duration_full_time
                           : m.syllabus_version.name === modality["part_time"]
-                          ? content.info.duration_part_time
-                          : content.info.duration_weeks}
+                            ? content.info.duration_part_time
+                            : content.info.duration_weeks}
                       </Paragraph>
                     </Div>
                   </Div>
